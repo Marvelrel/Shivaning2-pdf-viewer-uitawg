@@ -1,0 +1,63 @@
+<br><br>
+<div class="container-fluid">
+	<h4>DM - PDF Viewer (ng2-pdf-viewer)</h4>
+</div><br>
+
+<div *ngIf="(errorTriggeredCb || afterpageLoadedCb || pageRenderCb || textLayerRenderedCb) > 0" class="container-fluid">
+	<h5>Callback Listners:</h5>
+<p *ngIf="errorTriggeredCb > 0" class="text-danger">
+	<b>Error loading PDF: Call back triggered ({{errorTriggeredCb}})</b></p>
+<p>
+	<p *ngIf="afterpageLoadedCb > 0" class="text-primary">
+		<b>After page loaded: Call back triggered ({{afterpageLoadedCb}})</b></p>
+	<p>
+		<p *ngIf="pageRenderCb > 0" class="text-primary">
+			<b>Page rendered: Call back triggered ({{pageRenderCb}})</b></p>
+		<p>
+		<p *ngIf="textLayerRenderedCb > 0" class="text-primary">
+			<b>Text layer rendered: Call back triggered ({{textLayerRenderedCb}})</b></p>
+		<p>
+      
+</div><br>
+
+<div class="container-fluid">
+	<input class="btn btn-warning" (change)="cleanup();onFileSelected()" type="file" id="file">&nbsp;
+    <button type="button" [disabled]="!pdfSrc" (click)="download(true)" class="btn btn-primary">Download</button> &nbsp;
+        <button type="button" [disabled]="!pdfSrc" (click)="print()" class="btn btn-primary">Print PDF</button>
+</div><br><br>
+	<div *ngIf="pdfSrc" class="container-fluid">
+		<button type="button" class="btn btn-primary btn-sm" 
+    (click)="previousPage()">Previous page</button>&nbsp;
+  
+		<button type="button" class="btn btn-primary btn-sm"
+    (click)="nextPage()">Next page</button>&nbsp;
+
+		<button type="button" class="btn btn-secondary btn-sm"
+    (click)="plusZoom()"> Zoom(+)</button>&nbsp;
+
+		<button type="button" class="btn btn-secondary btn-sm"
+    (click)="minusZoom()"> Zoom(-)</button> &nbsp;
+
+		<button type="button" class="btn btn-success btn-sm"
+     (click)="rotate()">Rotate {{angle}} </button> &nbsp;
+
+		<br>
+		<div class="container-fluid h-100 w-50">
+			<pdf-viewer [src]="pdfSrc"
+       id="pdf-report-id"
+       [show-all]="true" 
+       [(page)]="pageVariable"
+       [render-text]="true"
+       [zoom]="zoom"
+			 [rotation]="angle"
+       [show-borders]="true" 
+       (error)="errorTest($event)"
+       [original-size]="false"
+			 (after-load-complete)="afterLoadComplete($event)" 
+       (page-rendered)="pageRendered($event)"
+		   (text-layer-rendered)="textLayerRendered($event)"></pdf-viewer>
+		</div>
+	</div>
+
+  <!-- [zoom-scale]="'page-fit'"  -->
+  <!-- [external-link-target]="'none'" -->
